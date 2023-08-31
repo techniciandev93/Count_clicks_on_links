@@ -23,14 +23,12 @@ def is_bitlink(bitlink, headers):
     schemaless_url = strip_scheme(bitlink)
     url = 'https://api-ssl.bitly.com/v4/bitlinks/{}'
     response = requests.get(url.format(schemaless_url), headers=headers)
-    if response.ok:
-        return True
-    return False
+    return response.ok
 
 
 def strip_scheme(url):
     parser_url = urlparse(url)
-    schemaless = parser_url.netloc + parser_url.path
+    schemaless = f'{parser_url.netloc}{parser_url.path}'
     return schemaless
 
 
@@ -39,8 +37,7 @@ if __name__ == '__main__':
     token = os.environ['BITLY_TOKEN']
 
     bitlink_headers = {
-        'Authorization': f'Bearer {token}',
-        'Content-Type': 'application/json'
+        'Authorization': f'Bearer {token}'
     }
 
     entered_url = input('Введите ссылку: ')
