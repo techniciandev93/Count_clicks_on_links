@@ -2,6 +2,7 @@ import requests
 from dotenv.main import load_dotenv
 from urllib.parse import urlparse
 import os
+import argparse
 
 
 def shorten_link(long_url, headers):
@@ -40,8 +41,11 @@ if __name__ == '__main__':
         'Authorization': f'Bearer {token}'
     }
 
-    entered_url = input('Введите ссылку: ')
-    if is_bitlink(entered_url, bitlink_headers):
-        print(f'По вашей ссылке прошли: {count_clicks(entered_url, bitlink_headers)} раз(а)')
+    parser = argparse.ArgumentParser()
+    parser.add_argument("url", help="Укажите ссылку")
+    args = parser.parse_args()
+
+    if is_bitlink(args.url, bitlink_headers):
+        print(f'По вашей ссылке прошли: {count_clicks(args.url, bitlink_headers)} раз(а)')
     else:
-        print(f'Битлинк: {shorten_link(entered_url, bitlink_headers)}')
+        print(f'Битлинк: {shorten_link(args.url, bitlink_headers)}')
